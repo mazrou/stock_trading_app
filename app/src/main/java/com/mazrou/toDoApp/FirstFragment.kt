@@ -5,13 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.mazrou.toDoApp.databinding.FragmentFirstBinding
+import com.mazrou.toDoApp.framework.presentation.TickersEvent
+import com.mazrou.toDoApp.framework.presentation.TickersViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+@AndroidEntryPoint
 class FirstFragment : Fragment() {
+
+    private val viewModel : TickersViewModel by viewModels()
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -22,7 +29,7 @@ class FirstFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         _binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
@@ -33,7 +40,10 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            viewModel.onTriggerEvent(TickersEvent.GetTickersFromNetwork(
+                listOf("FBC","AAPL")
+            ))
+           // findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
         }
     }
 
