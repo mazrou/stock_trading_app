@@ -42,13 +42,13 @@ fun StockItem(
                 Text(
                     text = stock.ticker,
                     style = MaterialTheme.typography.h6,
-                    color = Color.DarkGray
+
 
                 )
                 Text(
                     text = stock.ticker,
                     style = MaterialTheme.typography.subtitle2,
-                    color = Color.LightGray
+
                 )
             }
             //Pricing
@@ -60,7 +60,6 @@ fun StockItem(
                     modifier  =Modifier.align(Alignment.End),
                     text = stock.last.toString() + " $",
                     style = MaterialTheme.typography.subtitle1,
-                    color = Color.DarkGray
 
                 )
                 Text(

@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.mazrou.toDoApp.databinding.FragmentFirstBinding
-import com.mazrou.toDoApp.framework.presentation.TickersEvent
-import com.mazrou.toDoApp.framework.presentation.TickersViewModel
+import com.mazrou.toDoApp.framework.presentation.StocksEvent
+import com.mazrou.toDoApp.framework.presentation.StocksListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
@@ -40,7 +39,7 @@ class FirstFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.buttonFirst.setOnClickListener {
-            viewModel.onTriggerEvent(TickersEvent.GetTickersFromNetwork(
+            viewModel.onTriggerEvent(StocksEvent.GetStocksFromNetwork(
                 listOf("FBC","AAPL")
             ))
            // findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)

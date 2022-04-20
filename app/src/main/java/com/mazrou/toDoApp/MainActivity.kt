@@ -6,7 +6,9 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.ui.AppBarConfiguration
 import com.google.accompanist.appcompattheme.AppCompatTheme
@@ -16,15 +18,30 @@ import com.mazrou.toDoApp.databinding.ActivityMainBinding
 import com.mazrou.toDoApp.framework.presentation.StocksEvent
 import com.mazrou.toDoApp.framework.presentation.StocksListViewModel
 import com.mazrou.toDoApp.framework.presentation.components.StockItem
+import com.mazrou.toDoApp.framework.presentation.theme.AppTheme
+import com.mazrou.toDoApp.framework.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
+@ExperimentalMaterialApi
 class MainActivity : AppCompatActivity() {
 
+    @Inject
+    lateinit var connectivityManager: ConnectivityManager
     private val viewModel: StocksListViewModel by viewModels()
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
+    override fun onStart() {
+        super.onStart()
+        connectivityManager.registerConnectionObserver(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        connectivityManager.unregisterConnectionObserver(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +74,14 @@ class MainActivity : AppCompatActivity() {
     // @PreviewParameter(provider = List<Stock>.javaClass)
 
     fun mainScreen(stocks: List<Stock>) {
-        MdcTheme {
+
+        val scaffoldState = rememberScaffoldState()
+
+        AppTheme(
+            darkTheme = false,
+            isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+            scaffoldState = scaffoldState
+        ) {
             LazyColumn {
                 itemsIndexed(items = stocks) { index: Int, item: Stock ->
                     StockItem(stock = item) {
