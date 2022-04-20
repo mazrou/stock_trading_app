@@ -18,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class FirstFragment : Fragment() {
 
-    private val viewModel : TickersViewModel by viewModels()
+    private val viewModel : StocksListViewModel by viewModels()
 
     private var _binding: FragmentFirstBinding? = null
 
