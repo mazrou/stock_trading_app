@@ -1,14 +1,14 @@
 package com.mazrou.toDoApp.framework.datasource.network.tickers
 
-import com.mazrou.toDoApp.business.domain.models.Ticker
+import com.mazrou.toDoApp.business.domain.models.Stock
 import com.mazrou.toDoApp.framework.datasource.network.tickers.api.TiingoWebService
 
-class TickersNetworkServiceImpl(
+class StocksNetworkServiceImpl(
     private val webservice: TiingoWebService
-) : TickersNetworkService {
+) : StocksNetworkService {
 
-    override suspend fun getTickersList(tickers: List<String>): List<Ticker> {
-        return webservice.getTickersList(tickers = tickers.toStringIterated()).map {
+    override suspend fun getStocksList(tickers: List<String>): List<Stock> {
+        return webservice.getStocksList(tickers = tickers.toStringIterated()).map {
             it.toTicker()
         }
     }

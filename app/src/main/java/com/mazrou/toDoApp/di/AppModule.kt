@@ -2,11 +2,11 @@ package com.mazrou.toDoApp.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.mazrou.toDoApp.business.datasource.network.tickers.TickersNetworkDataSource
-import com.mazrou.toDoApp.business.datasource.network.tickers.TickersNetworkDataSourceImpl
+import com.mazrou.toDoApp.business.datasource.network.tickers.StocksNetworkDataSource
+import com.mazrou.toDoApp.business.datasource.network.tickers.StocksNetworkDataSourceImpl
 import com.mazrou.toDoApp.business.domain.uitils.Constants
-import com.mazrou.toDoApp.framework.datasource.network.tickers.TickersNetworkService
-import com.mazrou.toDoApp.framework.datasource.network.tickers.TickersNetworkServiceImpl
+import com.mazrou.toDoApp.framework.datasource.network.tickers.StocksNetworkService
+import com.mazrou.toDoApp.framework.datasource.network.tickers.StocksNetworkServiceImpl
 import com.mazrou.toDoApp.framework.datasource.network.tickers.api.TiingoWebService
 import dagger.Module
 import dagger.Provides
@@ -45,17 +45,17 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideTickersNetworkService(
+    fun provideStocksNetworkService(
         tiingoWebService: TiingoWebService
-    ): TickersNetworkService {
-        return TickersNetworkServiceImpl(tiingoWebService)
+    ): StocksNetworkService {
+        return StocksNetworkServiceImpl(tiingoWebService)
     }
 
     @Singleton
     @Provides
-    fun provideTickersNetworkDataSource(
-        tickersNetworkService: TickersNetworkService
-    ): TickersNetworkDataSource {
-        return TickersNetworkDataSourceImpl(tickersNetworkService)
+    fun provideStocksNetworkDataSource(
+        stocksNetworkService: StocksNetworkService
+    ): StocksNetworkDataSource {
+        return StocksNetworkDataSourceImpl(stocksNetworkService)
     }
 }

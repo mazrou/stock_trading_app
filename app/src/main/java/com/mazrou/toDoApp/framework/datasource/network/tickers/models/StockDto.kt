@@ -1,9 +1,9 @@
 package com.mazrou.toDoApp.framework.datasource.network.tickers.models
 
-import com.mazrou.toDoApp.business.domain.models.Ticker
+import com.mazrou.toDoApp.business.domain.models.Stock
 import java.util.*
 
-data class TickerTopOfBookDto(
+data class StockDto(
     val ticker: String,
     val timestamp: Date,
     val quoteTimestamp: Date,
@@ -22,8 +22,8 @@ data class TickerTopOfBookDto(
     val askSize: Double?,
     val askPrice: Double?
 ) {
-    fun toTicker(): Ticker {
-        return Ticker(
+    fun toTicker(): Stock {
+        return Stock(
             ticker,
             timestamp,
             quoteTimestamp,

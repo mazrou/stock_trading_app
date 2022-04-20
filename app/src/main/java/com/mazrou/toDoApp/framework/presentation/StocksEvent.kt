@@ -1,8 +1,8 @@
 package com.mazrou.toDoApp.framework.presentation
 
-sealed class TickersEvent : Event {
+sealed class StocksEvent : Event {
 
-    data class GetTickersFromNetwork(
+    data class GetStocksFromNetwork(
         val tickers: List<String>
     ) : Event
 }

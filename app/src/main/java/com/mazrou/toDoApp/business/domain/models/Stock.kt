@@ -2,7 +2,7 @@ package com.mazrou.toDoApp.business.domain.models
 
 import java.util.*
 
-data class Ticker(
+data class Stock(
     val ticker: String,
     val timestamp: Date,
     val quoteTimestamp: Date,
