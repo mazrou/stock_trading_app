@@ -40,7 +40,7 @@ constructor(
 
     private fun getTickersFromNetwork(tickers: List<String>) {
         state.value.let { state ->
-            getTickersFromNetworkUseCase.getStocksFromNetwork(
+            getTickersFromNetworkUseCase.execute(
                 tickers = tickers
             ).onEach { dataState ->
                 this.state.value = state.copy(isLoading = dataState.isLoading)

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetStocksFromNetworkUseCase {
 
-    fun getStocksFromNetwork(
+    fun execute(
         tickers: List<String>,
     ): Flow<DataState<List<Stock>>>
 }

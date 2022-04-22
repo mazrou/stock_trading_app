@@ -13,7 +13,7 @@ class GetStocksFromNetwork(
     private val stocksNetworkDataSource: StocksNetworkDataSource
 ) : GetStocksFromNetworkUseCase {
 
-    override fun getStocksFromNetwork(
+    override fun execute(
         tickers: List<String>
     ): Flow<DataState<List<Stock>>> = flow {
         emit(DataState.loading<List<Stock>>())
