@@ -7,12 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.ui.AppBarConfiguration
 import com.google.accompanist.appcompattheme.AppCompatTheme
-import com.google.android.material.composethemeadapter.MdcTheme
 import com.mazrou.toDoApp.business.domain.models.Stock
 import com.mazrou.toDoApp.databinding.ActivityMainBinding
 import com.mazrou.toDoApp.framework.presentation.StocksEvent
@@ -78,21 +77,27 @@ class MainActivity : AppCompatActivity() {
         val scaffoldState = rememberScaffoldState()
 
         AppTheme(
-            darkTheme = false,
+            darkTheme = true,
             isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
             scaffoldState = scaffoldState
         ) {
-            LazyColumn {
-                itemsIndexed(items = stocks) { index: Int, item: Stock ->
-                    StockItem(stock = item) {
-                        viewModel.onTriggerEvent(
-                            StocksEvent.GetStocksFromNetwork(
-                                listOf("FBC", "AAPL","SPY","MCF","GLG")
+
+            Scaffold(
+
+            ) {
+                LazyColumn {
+                    itemsIndexed(items = stocks) { index: Int, item: Stock ->
+                        StockItem(stock = item) {
+                            viewModel.onTriggerEvent(
+                                StocksEvent.GetStocksFromNetwork(
+                                    listOf("FBC", "AAPL", "SPY", "MCF", "GLG")
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }
+
         }
     }
 
