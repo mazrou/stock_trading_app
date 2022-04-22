@@ -2,35 +2,33 @@ package com.mazrou.toDoApp
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.navigation.ui.AppBarConfiguration
-import com.google.accompanist.appcompattheme.AppCompatTheme
-import com.mazrou.toDoApp.business.domain.models.Stock
-import com.mazrou.toDoApp.databinding.ActivityMainBinding
-import com.mazrou.toDoApp.framework.presentation.StocksEvent
+import androidx.compose.material.Text
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.hilt.navigation.HiltViewModelFactory
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mazrou.toDoApp.framework.presentation.StocksListViewModel
-import com.mazrou.toDoApp.framework.presentation.components.StockItem
-import com.mazrou.toDoApp.framework.presentation.theme.AppTheme
+import com.mazrou.toDoApp.framework.presentation.navigation.Screen
+import com.mazrou.toDoApp.framework.presentation.ui.MainScreen
 import com.mazrou.toDoApp.framework.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
 @ExperimentalMaterialApi
+@ExperimentalUnitApi
 class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var connectivityManager: ConnectivityManager
-    private val viewModel: StocksListViewModel by viewModels()
-    private lateinit var appBarConfiguration: AppBarConfiguration
-    private lateinit var binding: ActivityMainBinding
+    //private val viewModel: StocksListViewModel by viewModels()
 
     override fun onStart() {
         super.onStart()
@@ -42,86 +40,35 @@ class MainActivity : AppCompatActivity() {
         connectivityManager.unregisterConnectionObserver(this)
     }
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppCompatTheme() {
-                val stocks = viewModel.state.value.stocks
-                stocks?.let {
-                    mainScreen(stocks = it)
+            val navController = rememberNavController()
+            NavHost(navController = navController, startDestination = Screen.StocksList.route) {
+                composable(route = Screen.StocksList.route) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: StocksListViewModel =
+                        viewModel(key = "StocksListViwModel", factory = factory)
+                    MainScreen(
+                        isDarkTheme = false,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        viewModel = viewModel,
+                        onNavigateToStockDetailScreen = navController::navigate,
+                    )
+                }
+                composable(
+                    route = Screen.StocksDetails.route + "/{stockTicket}",
+                    arguments = listOf(navArgument("stockTicket") {
+                        type = NavType.StringType
+                    })
+                ) {
+                    Text(
+                        text = "Hello We just testng"
+                    )
                 }
             }
         }
-
-
-        /*binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        setSupportActionBar(binding.toolbar)
-
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        binding.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        } */
     }
-
-    @Composable
-    // @PreviewParameter(provider = List<Stock>.javaClass)
-
-    fun mainScreen(stocks: List<Stock>) {
-
-        val scaffoldState = rememberScaffoldState()
-
-        AppTheme(
-            darkTheme = true,
-            isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
-            scaffoldState = scaffoldState
-        ) {
-
-            Scaffold(
-
-            ) {
-                LazyColumn {
-                    itemsIndexed(items = stocks) { index: Int, item: Stock ->
-                        StockItem(stock = item) {
-                            viewModel.onTriggerEvent(
-                                StocksEvent.GetStocksFromNetwork(
-                                    listOf("FBC", "AAPL", "SPY", "MCF", "GLG")
-                                )
-                            )
-                        }
-                    }
-                }
-            }
-
-        }
-    }
-
-/*
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
-        return navController.navigateUp(appBarConfiguration)
-                || super.onSupportNavigateUp()
-    }*/
 }
+

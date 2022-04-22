@@ -25,7 +25,7 @@ constructor(
     init {
         onTriggerEvent(
             StocksEvent.GetStocksFromNetwork(
-                listOf("FBC", "AAPL")
+                listOf("FBC", "AAPL" ,"GLG" , "MCF" , "SPY")
             )
         )
     }
@@ -44,8 +44,8 @@ constructor(
                 tickers = tickers
             ).onEach { dataState ->
                 this.state.value = state.copy(isLoading = dataState.isLoading)
-                dataState.data?.let { tickers ->
-                    this.state.value = state.copy(stocks = tickers)
+                dataState.data?.let { stocks ->
+                    this.state.value = state.copy(stocks = stocks)
                 }
                 dataState.stateMessage?.let { stateMessage ->
                     appendToMessageQueue(stateMessage)

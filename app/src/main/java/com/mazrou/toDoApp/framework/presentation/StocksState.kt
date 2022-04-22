@@ -6,6 +6,6 @@ import com.mazrou.toDoApp.business.domain.uitils.StateMessage
 
 data class StocksState(
     val isLoading: Boolean = false,
-    val stocks: List<Stock>? = null,
+    val stocks: List<Stock> = listOf(),
     val queue: Queue<StateMessage> = Queue(mutableListOf())
 )
