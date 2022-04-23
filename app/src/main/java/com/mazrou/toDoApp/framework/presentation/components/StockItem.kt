@@ -44,12 +44,12 @@ fun StockItem(
         ) {
             Text(
                 modifier = Modifier.align(Alignment.End),
-                text = stock.last.toString() + " $",
+                text = "$ " + stock.last.toString(),
                 style = MaterialTheme.typography.subtitle1,
             )
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = String.format("%.1f", (stock.last - stock.prevClose)) + "%",
+                text = "%" + String.format("%.1f", (stock.last - stock.prevClose)),
                 style = MaterialTheme.typography.subtitle2,
                 color = if (stock.prevClose > stock.last) {
                     Color.Red

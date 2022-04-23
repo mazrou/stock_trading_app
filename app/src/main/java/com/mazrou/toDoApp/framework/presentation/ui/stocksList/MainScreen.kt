@@ -1,14 +1,16 @@
-package com.mazrou.toDoApp.framework.presentation.ui
+package com.mazrou.toDoApp.framework.presentation.ui.stocksList
 
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import com.mazrou.toDoApp.framework.presentation.StocksListViewModel
+import com.mazrou.toDoApp.framework.presentation.components.SearchAppBar
 import com.mazrou.toDoApp.framework.presentation.components.StocksList
 import com.mazrou.toDoApp.framework.presentation.theme.AppTheme
 
+@ExperimentalComposeUiApi
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
 @Composable
@@ -20,13 +22,24 @@ fun MainScreen(
 ) {
     val loading = viewModel.state.value.isLoading
     val stocks = viewModel.state.value.stocks
+    val query = viewModel.state.value.query
     val scaffoldState = rememberScaffoldState()
     AppTheme(
         darkTheme = isDarkTheme,
         isNetworkAvailable = isNetworkAvailable,
         scaffoldState = scaffoldState
     ) {
-        Scaffold {
+        Scaffold(
+            topBar = {
+                SearchAppBar(
+                    query = query,
+                    onQueryChanged = viewModel::onQueryChanged,
+                    onExecuteSearch = {
+                        //viewModel.onTriggerEvent(RecipeListEvent.NewSearchEvent)
+                    }
+                )
+            }
+        ) {
             StocksList(
                 loading = loading,
                 stocks = stocks,

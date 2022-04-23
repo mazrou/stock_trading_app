@@ -3,14 +3,8 @@ package com.mazrou.toDoApp.framework.presentation.components
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.ExperimentalUnitApi
-import com.google.accompanist.appcompattheme.AppCompatTheme
-import com.google.android.material.composethemeadapter.MdcTheme
 import com.mazrou.toDoApp.business.domain.models.Stock
-import com.mazrou.toDoApp.framework.presentation.StocksEvent
-import com.mazrou.toDoApp.framework.presentation.components.StockItem
 import com.mazrou.toDoApp.framework.presentation.navigation.Screen
 
 @ExperimentalUnitApi

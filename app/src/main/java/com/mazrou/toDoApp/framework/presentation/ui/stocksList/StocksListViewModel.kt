@@ -1,4 +1,4 @@
-package com.mazrou.toDoApp.framework.presentation
+package com.mazrou.toDoApp.framework.presentation.ui.stocksList
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -8,6 +8,8 @@ import com.mazrou.toDoApp.business.domain.uitils.StateMessage
 import com.mazrou.toDoApp.business.domain.uitils.UIComponentType
 import com.mazrou.toDoApp.business.domain.uitils.doesMessageAlreadyExistInQueue
 import com.mazrou.toDoApp.business.interactors.tickers.ports.GetStocksFromNetworkUseCase
+import com.mazrou.toDoApp.framework.presentation.BaseViewModel
+import com.mazrou.toDoApp.framework.presentation.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -24,15 +26,15 @@ constructor(
 
     init {
         onTriggerEvent(
-            StocksEvent.GetStocksFromNetwork(
-                listOf("FBC", "AAPL" ,"GLG" , "MCF" , "SPY")
+            StocksListEvent.GetStocksFromNetwork(
+                listOf("FBC", "AAPL", "GLG", "MCF", "SPY")
             )
         )
     }
 
     override fun onTriggerEvent(event: Event) {
         when (event) {
-            is StocksEvent.GetStocksFromNetwork -> {
+            is StocksListEvent.GetStocksFromNetwork -> {
                 getTickersFromNetwork(event.tickers)
             }
         }
@@ -52,6 +54,13 @@ constructor(
                 }
             }.launchIn(viewModelScope)
         }
+    }
+
+    fun onQueryChanged(query: String) {
+        setQuery(query)
+    }
+    private fun setQuery(query: String){
+        this.state.value = state.value.copy(query = query)
     }
 
     override fun removeHeadFromQueue() {

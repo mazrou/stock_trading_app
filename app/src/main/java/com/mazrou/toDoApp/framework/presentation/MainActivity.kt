@@ -1,10 +1,10 @@
-package com.mazrou.toDoApp
+package com.mazrou.toDoApp.framework.presentation
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Text
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.hilt.navigation.HiltViewModelFactory
@@ -14,13 +14,14 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.mazrou.toDoApp.framework.presentation.StocksListViewModel
 import com.mazrou.toDoApp.framework.presentation.navigation.Screen
-import com.mazrou.toDoApp.framework.presentation.ui.MainScreen
+import com.mazrou.toDoApp.framework.presentation.ui.stockDetail.StockDetailScreen
+import com.mazrou.toDoApp.framework.presentation.ui.stocksList.MainScreen
+import com.mazrou.toDoApp.framework.presentation.ui.stocksList.StocksListViewModel
 import com.mazrou.toDoApp.framework.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-
+@ExperimentalComposeUiApi
 @AndroidEntryPoint
 @ExperimentalMaterialApi
 @ExperimentalUnitApi
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                     val viewModel: StocksListViewModel =
                         viewModel(key = "StocksListViwModel", factory = factory)
                     MainScreen(
-                        isDarkTheme = false,
+                        isDarkTheme = true,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                         viewModel = viewModel,
                         onNavigateToStockDetailScreen = navController::navigate,
@@ -62,9 +63,14 @@ class MainActivity : AppCompatActivity() {
                     arguments = listOf(navArgument("stockTicket") {
                         type = NavType.StringType
                     })
-                ) {
-                    Text(
-                        text = "Hello We just testng"
+                ) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: StocksListViewModel =
+                        viewModel(key = "StocksListViwModel", factory = factory)
+                    StockDetailScreen(
+                        isDarkTheme = false,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        stocks = viewModel.state.value.stocks
                     )
                 }
             }
