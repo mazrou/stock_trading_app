@@ -16,16 +16,16 @@ import java.util.*
 private val LightThemeColors = lightColors(
     primary = Blue600,
     primaryVariant = Blue400,
-    onPrimary = Black2,
+    onPrimary = Color.White,
     secondary = Color.White,
     secondaryVariant = Color.White,
     onSecondary = Color.Gray,
     error = RedErrorLight,
     onError = Color.White,
     background = Grey1,
-    onBackground = Color.Black,
-    surface = Color.White,
-    onSurface = Teal300,
+    onBackground = Color.White,
+    surface = Grey1,
+    onSurface = Black2,
 )
 
 private val DarkThemeColors = darkColors(
