@@ -68,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                     val viewModel: StocksListViewModel =
                         viewModel(key = "StocksListViwModel", factory = factory)
                     StockDetailScreen(
-                        isDarkTheme = false,
+                        isDarkTheme = true,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                         stocks = viewModel.state.value.stocks
                     )
