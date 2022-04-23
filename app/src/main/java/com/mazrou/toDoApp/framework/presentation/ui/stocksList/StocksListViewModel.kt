@@ -27,7 +27,29 @@ constructor(
     init {
         onTriggerEvent(
             StocksListEvent.GetStocksFromNetwork(
-                listOf("FBC", "AAPL", "GLG", "MCF", "SPY")
+                listOf(
+                    "FBC",
+                    "AAPL",
+                    "GLG",
+                    "MCF",
+                    "SPY",
+                    "ABTX",
+                    "ACAXR",
+                    "ACBA",
+                    "ACC",
+                    "ACEEU",
+                    "ACER",
+                    "ACEVU",
+                    "AACQU",
+                    "AADI",
+                    "AAIC",
+                    "AAN",
+                    "ABBAF",
+                    "ABENU",
+                    "ABMD",
+                    "ABOS",
+                    "ACGLN"
+                )
             )
         )
     }
@@ -59,7 +81,8 @@ constructor(
     fun onQueryChanged(query: String) {
         setQuery(query)
     }
-    private fun setQuery(query: String){
+
+    private fun setQuery(query: String) {
         this.state.value = state.value.copy(query = query)
     }
 
