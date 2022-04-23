@@ -12,8 +12,9 @@ val Blue800 = Color(0xFF1565C0)
 val Teal300 = Color(0xFF19d2b0)
 
 val Grey1 = Color(0xFFF2F2F2)
+val Gray = Color(0xFF929191)
 
-val Black1 = Color(0xFF222222)
+val Black1 = Color(0xFF010100)
 val Black2 = Color(0xFF000000)
 
 val RedErrorDark = Color(0xFFB00020)
