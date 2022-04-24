@@ -46,7 +46,7 @@ fun MainScreen(
                         query = query,
                         onQueryChanged = viewModel::onQueryChanged,
                         onExecuteSearch = {
-                            //viewModel.onTriggerEvent(RecipeListEvent.NewSearchEvent)
+                            viewModel.onTriggerEvent(StocksListEvent.NewSearch)
                         }
                     )
                 }

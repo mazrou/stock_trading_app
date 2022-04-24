@@ -7,4 +7,7 @@ sealed class StocksListEvent : Event {
     data class GetStocksFromNetwork(
         val tickers: List<String>
     ) : Event
+
+
+    object NewSearch : Event
 }

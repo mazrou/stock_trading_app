@@ -7,7 +7,29 @@ class Constants {
         const val BASE_URL = "https://api.tiingo.com/"
         const val PASSWORD_RESET_URL: String = "https://open-api.xyz/password_reset/"
 
-
+         val TICKERS_LIST =listOf(
+        "FBC",
+        "AAPL",
+        "GLG",
+        "MCF",
+        "SPY",
+        "ABTX",
+        "ACAXR",
+        "ACBA",
+        "ACC",
+        "ACEEU",
+        "ACER",
+        "ACEVU",
+        "AACQU",
+        "AADI",
+        "AAIC",
+        "AAN",
+        "ABBAF",
+        "ABENU",
+        "ABMD",
+        "ABOS",
+        "ACGLN"
+        )
         const val NETWORK_TIMEOUT = 6000L
         const val CACHE_TIMEOUT = 2000L
         const val TESTING_NETWORK_DELAY = 0L // fake network delay for testing

@@ -1,8 +1,8 @@
 package com.mazrou.toDoApp.di.tickers
 
 import com.mazrou.toDoApp.business.datasource.network.tickers.StocksNetworkDataSource
-import com.mazrou.toDoApp.business.interactors.tickers.GetStocksFromNetwork
-import com.mazrou.toDoApp.business.interactors.tickers.ports.GetStocksFromNetworkUseCase
+import com.mazrou.toDoApp.business.interactors.tickers.SearchStockByTicker
+import com.mazrou.toDoApp.business.interactors.tickers.ports.SearchStockByTickerUserCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,11 +13,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object StocksModule {
 
+
     @Singleton
     @Provides
-    fun provideGetTickers(
+    fun provideSearchStocksByTicker(
         stocksNetworkDataSource: StocksNetworkDataSource
-    ): GetStocksFromNetworkUseCase {
-        return GetStocksFromNetwork(stocksNetworkDataSource)
+    ): SearchStockByTickerUserCase {
+        return SearchStockByTicker(stocksNetworkDataSource)
     }
+
 }

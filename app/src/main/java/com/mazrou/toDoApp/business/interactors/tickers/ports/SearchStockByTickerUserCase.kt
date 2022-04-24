@@ -4,9 +4,8 @@ import com.mazrou.toDoApp.business.domain.models.Stock
 import com.mazrou.toDoApp.business.domain.uitils.DataState
 import kotlinx.coroutines.flow.Flow
 
-interface GetStocksFromNetworkUseCase {
-
+interface SearchStockByTickerUserCase {
     fun execute(
-        tickers: List<String>,
+        query: String
     ): Flow<DataState<List<Stock>>>
 }

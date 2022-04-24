@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.mazrou.toDoApp.business.domain.uitils.StateMessage
 import com.mazrou.toDoApp.business.domain.uitils.UIComponentType
 import com.mazrou.toDoApp.business.domain.uitils.doesMessageAlreadyExistInQueue
-import com.mazrou.toDoApp.business.interactors.tickers.ports.GetStocksFromNetworkUseCase
+import com.mazrou.toDoApp.business.interactors.tickers.ports.SearchStockByTickerUserCase
 import com.mazrou.toDoApp.framework.presentation.BaseViewModel
 import com.mazrou.toDoApp.framework.presentation.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,53 +19,30 @@ import javax.inject.Inject
 class StocksListViewModel
 @Inject
 constructor(
-    private val getTickersFromNetworkUseCase: GetStocksFromNetworkUseCase
+    private val searchStockByTicker: SearchStockByTickerUserCase
 ) : BaseViewModel() {
 
     val state: MutableState<StocksState> = mutableStateOf(StocksState())
 
     init {
         onTriggerEvent(
-            StocksListEvent.GetStocksFromNetwork(
-                listOf(
-                    "FBC",
-                    "AAPL",
-                    "GLG",
-                    "MCF",
-                    "SPY",
-                    "ABTX",
-                    "ACAXR",
-                    "ACBA",
-                    "ACC",
-                    "ACEEU",
-                    "ACER",
-                    "ACEVU",
-                    "AACQU",
-                    "AADI",
-                    "AAIC",
-                    "AAN",
-                    "ABBAF",
-                    "ABENU",
-                    "ABMD",
-                    "ABOS",
-                    "ACGLN"
-                )
-            )
+            StocksListEvent.NewSearch
         )
     }
 
     override fun onTriggerEvent(event: Event) {
         when (event) {
-            is StocksListEvent.GetStocksFromNetwork -> {
-                getTickersFromNetwork(event.tickers)
+
+            is StocksListEvent.NewSearch -> {
+                newSearch()
             }
         }
     }
 
-    private fun getTickersFromNetwork(tickers: List<String>) {
+    private fun newSearch() {
         state.value.let { state ->
-            getTickersFromNetworkUseCase.execute(
-                tickers = tickers
+            searchStockByTicker.execute(
+                state.query
             ).onEach { dataState ->
                 this.state.value = state.copy(isLoading = dataState.isLoading)
                 dataState.data?.let { stocks ->
