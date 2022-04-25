@@ -1,15 +1,21 @@
 package com.mazrou.toDoApp.framework.presentation.ui.stocksList
 
-import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Build
+import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.ExperimentalUnitApi
+import androidx.compose.ui.unit.dp
 import com.mazrou.toDoApp.framework.presentation.components.BalanceSurface
 import com.mazrou.toDoApp.framework.presentation.components.SearchAppBar
 import com.mazrou.toDoApp.framework.presentation.components.StocksList
@@ -53,8 +59,27 @@ fun MainScreen(
                     )
                 }
 
-            }
+            },
+            bottomBar = {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(26.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                )
+                {
+                    FloatingActionButton(onClick = {}) {
+                        Icon(
+                            Icons.Filled.Refresh,
+                            contentDescription = "Float",
+                            modifier = Modifier
+                                .background(MaterialTheme.colors.primary)
 
+                                .padding(16.dp)
+                        )
+                    }
+                }
+            }
         ) {
             StocksList(
                 loading = stocksLoading,
