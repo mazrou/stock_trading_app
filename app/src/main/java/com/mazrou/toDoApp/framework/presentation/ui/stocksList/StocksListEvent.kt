@@ -4,10 +4,7 @@ import com.mazrou.toDoApp.framework.presentation.Event
 
 sealed class StocksListEvent : Event {
 
-    data class GetStocksFromNetwork(
-        val tickers: List<String>
-    ) : Event
-
+    object CurrentBalance : Event
 
     object NewSearch : Event
 }
