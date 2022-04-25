@@ -1,5 +1,6 @@
 package com.mazrou.toDoApp.framework.presentation.ui.stocksList
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ExperimentalMaterialApi
@@ -24,9 +25,10 @@ fun MainScreen(
     viewModel: StocksListViewModel,
     onNavigateToStockDetailScreen: (String) -> Unit,
 ) {
-    val loading = viewModel.state.value.isLoading
+    val stocksLoading = viewModel.state.value.isLoading
     val stocks = viewModel.state.value.stocks
     val query = viewModel.state.value.query
+    val balance = viewModel.balanceState.value.balance
     val scaffoldState = rememberScaffoldState()
     AppTheme(
         darkTheme = isDarkTheme,
@@ -39,7 +41,7 @@ fun MainScreen(
                     modifier = Modifier.fillMaxWidth(),
                 ) {
                     BalanceSurface(
-                        balance = 1000.0
+                        balance = balance
                     )
 
                     SearchAppBar(
@@ -55,7 +57,7 @@ fun MainScreen(
 
         ) {
             StocksList(
-                loading = loading,
+                loading = stocksLoading,
                 stocks = stocks,
                 onNavigateToStockDetailScreen = onNavigateToStockDetailScreen
             )
