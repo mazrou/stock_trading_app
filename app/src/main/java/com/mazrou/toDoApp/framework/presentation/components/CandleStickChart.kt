@@ -32,8 +32,9 @@ fun CandleStickChartView(
             neutralColor = Color.LTGRAY
             setDrawValues(true)
         }
+
         candleStickChart.apply {
-            isHighlightPerDragEnabled = true;
+            isHighlightPerDragEnabled = true
             setDrawBorders(true)
             setBorderColor(Color.GRAY)
             requestDisallowInterceptTouchEvent(true)
@@ -60,7 +61,7 @@ fun CandleStickChartView(
                 setAvoidFirstLastClipping(true)
             }
             legend.run {
-                isEnabled = true;
+                isEnabled = true
                 textColor = Color.WHITE
             }
             this.data = CandleData(set1)
