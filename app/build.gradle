@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId "com.mazrou.toDoApp"
-        minSdk 21
+        minSdk 26
         targetSdk 32
         versionCode 1
         versionName "1.0"
@@ -89,7 +89,7 @@ dependencies {
     // UI Tests
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.1.1'
     // When using a MDC theme
-    implementation "com.google.android.material:compose-theme-adapter:1.1.6"
+    implementation "com.google.android.material:compose-theme-adapter:1.1.7"
     // When using a AppCompat theme
     implementation "com.google.accompanist:accompanist-appcompat-theme:0.16.0"
 

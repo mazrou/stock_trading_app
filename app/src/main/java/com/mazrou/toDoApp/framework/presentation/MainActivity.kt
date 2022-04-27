@@ -16,7 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mazrou.toDoApp.framework.presentation.navigation.Screen
 import com.mazrou.toDoApp.framework.presentation.ui.stockDetail.StockDetailScreen
-import com.mazrou.toDoApp.framework.presentation.ui.stockDetail.StockDetailViwModel
+import com.mazrou.toDoApp.framework.presentation.ui.stockDetail.StockDetailViewModel
 import com.mazrou.toDoApp.framework.presentation.ui.stocksList.MainScreen
 import com.mazrou.toDoApp.framework.presentation.ui.stocksList.StocksListViewModel
 import com.mazrou.toDoApp.framework.presentation.util.ConnectivityManager
@@ -66,11 +66,12 @@ class MainActivity : AppCompatActivity() {
                     })
                 ) { navBackStackEntry ->
                     val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-                    val viewModel: StockDetailViwModel =
+                    val viewModel: StockDetailViewModel =
                         viewModel(key = "StockDetailViwModel", factory = factory)
                     StockDetailScreen(
                         isDarkTheme = true,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        ticker = navBackStackEntry.arguments?.getString("stockTicket"),
                         viewModel = viewModel
                     )
                 }
