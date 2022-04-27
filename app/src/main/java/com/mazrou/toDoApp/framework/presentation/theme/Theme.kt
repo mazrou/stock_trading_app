@@ -29,7 +29,7 @@ private val LightThemeColors = lightColors(
 )
 
 private val DarkThemeColors = darkColors(
-    primary = Blue700,
+    primary = Blue800,
     primaryVariant = Color.White,
     onPrimary = Color.White,
     secondary = Black1,

@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.Top
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import com.mazrou.toDoApp.framework.presentation.components.CandleStickChartView
@@ -52,6 +52,22 @@ fun StockDetailScreen(
                 modifier = Modifier.fillMaxWidth(),
                 topBar = {
 
+                },
+                bottomBar = {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(50.dp), horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            modifier = Modifier
+                                .align(Top),
+                            onClick = {}) {
+                            Box(modifier = Modifier.padding(30.dp, 5.dp)) {
+                                Text(text = "Buy", style = MaterialTheme.typography.h6)
+                            }
+                        }
+                    }
                 }
             ) {
                 Column(
