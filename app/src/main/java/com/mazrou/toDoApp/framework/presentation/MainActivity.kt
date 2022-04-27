@@ -22,6 +22,7 @@ import com.mazrou.toDoApp.framework.presentation.ui.stocksList.StocksListViewMod
 import com.mazrou.toDoApp.framework.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+
 @ExperimentalComposeUiApi
 @AndroidEntryPoint
 @ExperimentalMaterialApi
@@ -60,10 +61,16 @@ class MainActivity : AppCompatActivity() {
                     )
                 }
                 composable(
-                    route = Screen.StocksDetails.route + "/{stockTicket}",
+                    route = Screen.StocksDetails.route + "/{stockTicket}/{last}/{previousClose}",
                     arguments = listOf(navArgument("stockTicket") {
                         type = NavType.StringType
-                    })
+                    },
+                        navArgument("last") {
+                            type = NavType.FloatType
+                        },
+                        navArgument("previousClose") {
+                            type = NavType.FloatType
+                        })
                 ) { navBackStackEntry ->
                     val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
                     val viewModel: StockDetailViewModel =
@@ -72,7 +79,10 @@ class MainActivity : AppCompatActivity() {
                         isDarkTheme = true,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                         ticker = navBackStackEntry.arguments?.getString("stockTicket"),
-                        viewModel = viewModel
+                        viewModel = viewModel,
+                        last = navBackStackEntry.arguments?.getFloat("last")?.toDouble(),
+                        previousClose = navBackStackEntry.arguments?.getFloat("previousClose")
+                            ?.toDouble(),
                     )
                 }
             }

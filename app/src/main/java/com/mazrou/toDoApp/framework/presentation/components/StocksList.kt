@@ -14,17 +14,17 @@ fun StocksList(
     stocks: List<Stock>,
     onNavigateToStockDetailScreen: (String) -> Unit,
 ) {
-    CircularIndeterminateProgressBar(isDisplayed = loading, verticalBias = 20f )
-    if (loading && stocks.isEmpty()){
+    CircularIndeterminateProgressBar(isDisplayed = loading, verticalBias = 20f)
+    if (loading && stocks.isEmpty()) {
         //TODO show the shimmer
-    }
-    else if (stocks.isEmpty()){
+    } else if (stocks.isEmpty()) {
         NothingHere()
-    }else{
+    } else {
         LazyColumn {
             itemsIndexed(items = stocks) { _: Int, item: Stock ->
                 StockItem(stock = item) {
-                    val route = Screen.StocksDetails.route + "/${item.ticker}"
+                    val route =
+                        Screen.StocksDetails.route + "/${item.ticker}/${item.last}/${item.prevClose}"
                     onNavigateToStockDetailScreen(route)
                 }
             }

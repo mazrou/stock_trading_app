@@ -1,15 +1,13 @@
 package com.mazrou.toDoApp.framework.presentation.ui.stockDetail
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Scaffold
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
 import com.mazrou.toDoApp.framework.presentation.components.CandleStickChartView
@@ -24,10 +22,12 @@ fun StockDetailScreen(
     isDarkTheme: Boolean,
     isNetworkAvailable: Boolean,
     ticker: String?,
+    last: Double?,
+    previousClose: Double?,
     viewModel: StockDetailViewModel
 ) {
 
-    if (ticker == null) {
+    if (ticker == null || last == null || previousClose == null) {
         // show an error
     } else {
         val data = viewModel.state.value.data
@@ -57,21 +57,63 @@ fun StockDetailScreen(
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(19.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically),
+                            style = MaterialTheme.typography.h5,
+                            color = MaterialTheme.colors.onPrimary,
+                            text = ticker
+                        )
+                        Column(
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        ) {
 
+                            Text(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally),
+                                style = MaterialTheme.typography.h5,
+                                color = MaterialTheme.colors.onPrimary,
+                                text = "$" + String.format("%.2f", (last))
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .align(Alignment.CenterHorizontally),
+                                style = MaterialTheme.typography.subtitle1,
+                                text = "$" + String.format("%.2f", (last - previousClose)),
+                                color = if (previousClose > last) {
+                                    Color.Red
+                                } else {
+                                    Color.Green
+                                }
+                            )
+                        }
+                    }
                     if (isLoading && data.isEmpty()) {
                         // show progress
-                    } else if ( data.isEmpty()) {
+                    } else if (data.isEmpty()) {
                         NothingHere()
                     } else if (data.isNotEmpty()) {
-                        CandleStickChartView(
+                        Surface(
                             modifier = Modifier
-                                .padding(10.dp)
-                                .fillMaxHeight(.5f)
-                                .fillMaxWidth(.9f)
-                                .align(Alignment.CenterHorizontally),
-                            data = data,
-                            ticker = ticker
-                        )
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colors.background)
+                        ) {
+                            CandleStickChartView(
+                                modifier = Modifier
+                                    .padding(10.dp)
+                                    .fillMaxHeight(.7f)
+                                    .fillMaxWidth(.9f)
+                                    .align(Alignment.CenterHorizontally),
+                                data = data,
+                                ticker = ticker
+                            )
+                        }
                     }
                 }
             }
