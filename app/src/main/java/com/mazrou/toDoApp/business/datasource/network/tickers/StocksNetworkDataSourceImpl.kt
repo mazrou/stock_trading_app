@@ -14,7 +14,7 @@ class StocksNetworkDataSourceImpl(
         return stocksNetworkService.getStocksList(tickers = tickers)
     }
 
-    override suspend fun getStockDetail(ticker: String, data: LocalDate): List<CandleEntry> {
-        return stocksNetworkService.getStockDetail(ticker = ticker, startDate = data)
+    override suspend fun getStockDetail(ticker: String, date: LocalDate): List<CandleEntry> {
+        return stocksNetworkService.getStockDetail(ticker = ticker, startDate = date)
     }
 }

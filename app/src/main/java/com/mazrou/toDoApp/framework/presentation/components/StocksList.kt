@@ -20,6 +20,7 @@ fun StocksList(
     } else if (stocks.isEmpty()) {
         NothingHere()
     } else {
+        //FIXME this list is laggy . this is no my problem
         LazyColumn {
             itemsIndexed(items = stocks) { _: Int, item: Stock ->
                 StockItem(stock = item) {
