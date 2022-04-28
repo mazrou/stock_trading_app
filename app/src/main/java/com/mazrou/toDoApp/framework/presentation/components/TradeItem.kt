@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.mazrou.toDoApp.business.domain.models.Trade
 import com.mazrou.toDoApp.business.domain.models.TradingType
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun TradeItem(
@@ -50,12 +51,12 @@ fun TradeItem(
         ) {
             Text(
                 modifier = Modifier.align(Alignment.End),
-                text = "$ " + trade.price.toString(),
+                text = "$ " + String.format("%.1f", trade.price.toString()),
                 style = MaterialTheme.typography.subtitle1,
             )
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = trade.date.toString(),
+                text = trade.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
                 style = MaterialTheme.typography.subtitle2,
             )
         }
