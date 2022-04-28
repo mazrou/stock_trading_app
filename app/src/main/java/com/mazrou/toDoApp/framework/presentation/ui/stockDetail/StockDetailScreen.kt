@@ -54,14 +54,39 @@ fun StockDetailScreen(
 
                 },
                 bottomBar = {
+
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(50.dp), horizontalArrangement = Arrangement.Center
+                            .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceAround
                     ) {
                         Button(
                             modifier = Modifier
                                 .align(Top),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Red),
+
+                            onClick = {
+                                if (!viewModel.isBuyingEventTrigger.value) {
+                                    viewModel.onTriggerEvent(
+                                        StockDetailEvent.SellStock(
+                                            ticker = ticker,
+                                            unitPrice = last,
+                                            quantity = 1,
+
+                                            )
+                                    )
+                                }
+                            }) {
+                            Box(modifier = Modifier.padding(30.dp, 5.dp)) {
+                                Text(
+                                    text = "Sell", style = MaterialTheme.typography.h6,
+                                    color = MaterialTheme.colors.onPrimary
+                                )
+                            }
+                        }
+                        Button(
+                            modifier = Modifier
+                                .align(Top),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = Color.Green),
                             onClick = {
                                 if (!viewModel.isBuyingEventTrigger.value) {
                                     viewModel.onTriggerEvent(
@@ -75,7 +100,11 @@ fun StockDetailScreen(
                                 }
                             }) {
                             Box(modifier = Modifier.padding(30.dp, 5.dp)) {
-                                Text(text = "Buy", style = MaterialTheme.typography.h6)
+                                Text(
+                                    text = "Buy",
+                                    style = MaterialTheme.typography.h6,
+                                    color = MaterialTheme.colors.onPrimary
+                                )
                             }
                         }
                     }

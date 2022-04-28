@@ -7,7 +7,7 @@ interface TradeNetworkService {
 
     suspend fun getBalance(): Double
     suspend fun setBalance(balance : Double)
-    suspend fun buyStock(trade : Trade) : Boolean
+    suspend fun makeTrade(trade : Trade) : Boolean
     suspend fun getTradeHistory() : List<Trade>
 
 }

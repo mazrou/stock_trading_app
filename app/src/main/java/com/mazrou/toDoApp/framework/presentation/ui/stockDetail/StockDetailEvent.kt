@@ -15,4 +15,10 @@ sealed class StockDetailEvent : Event {
         val unitPrice : Double ,
         val quantity : Int
     ) : StockDetailEvent()
+
+    data class SellStock(
+        val ticker : String ,
+        val unitPrice : Double ,
+        val quantity : Int
+    ) : StockDetailEvent()
 }

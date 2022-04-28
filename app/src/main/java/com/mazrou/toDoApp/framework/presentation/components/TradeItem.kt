@@ -51,7 +51,7 @@ fun TradeItem(
         ) {
             Text(
                 modifier = Modifier.align(Alignment.End),
-                text = "$ " + String.format("%.1f", trade.price.toString()),
+                text = "$ " + String.format("%.1f", trade.price),
                 style = MaterialTheme.typography.subtitle1,
             )
             Text(

@@ -4,7 +4,7 @@ import com.mazrou.toDoApp.business.domain.models.Trade
 import com.mazrou.toDoApp.business.domain.uitils.DataState
 import kotlinx.coroutines.flow.Flow
 
-interface BuyStockUseCase {
+interface MakeTradeUseCase {
 
     fun execute(
         trade : Trade

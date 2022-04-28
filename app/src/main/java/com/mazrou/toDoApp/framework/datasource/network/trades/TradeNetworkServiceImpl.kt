@@ -61,7 +61,7 @@ class TradeNetworkServiceImpl(
             }.await()
     }
 
-    override suspend fun buyStock(trade: Trade): Boolean {
+    override suspend fun makeTrade(trade: Trade): Boolean {
         var success = false
         fireStore
             .collection("Trades")

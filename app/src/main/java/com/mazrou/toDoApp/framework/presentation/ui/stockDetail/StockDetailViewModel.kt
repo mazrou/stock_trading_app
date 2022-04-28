@@ -10,7 +10,7 @@ import com.mazrou.toDoApp.business.domain.uitils.StateMessage
 import com.mazrou.toDoApp.business.domain.uitils.UIComponentType
 import com.mazrou.toDoApp.business.domain.uitils.doesMessageAlreadyExistInQueue
 import com.mazrou.toDoApp.business.interactors.tickers.ports.StockPricesUseCase
-import com.mazrou.toDoApp.business.interactors.trades.ports.BuyStockUseCase
+import com.mazrou.toDoApp.business.interactors.trades.ports.MakeTradeUseCase
 import com.mazrou.toDoApp.framework.presentation.BaseViewModel
 import com.mazrou.toDoApp.framework.presentation.Event
 import com.mazrou.toDoApp.framework.presentation.ui.stockDetail.StockDetailState.BuyingStockState
@@ -27,7 +27,7 @@ class StockDetailViewModel
 @Inject
 constructor(
     private val stockPricesUseCase: StockPricesUseCase,
-    private val buyStockUseCase: BuyStockUseCase
+    private val makeTrade: MakeTradeUseCase
 ) : BaseViewModel() {
 
     val state: MutableState<StockDetailsHistoryState> = mutableStateOf(StockDetailsHistoryState())
@@ -42,11 +42,22 @@ constructor(
                 importStockPrice(event.ticker, event.date)
             }
             is StockDetailEvent.BuyStock -> {
-                buyStock(
+                makeTrade(
                     trade = Trade(
                         ticker = event.ticker,
                         quantity = event.quantity,
                         type = TradingType.BUY,
+                        price = event.unitPrice,
+                        date = LocalDateTime.now()
+                    )
+                )
+            }
+            is StockDetailEvent.SellStock ->{
+                makeTrade(
+                    trade = Trade(
+                        ticker = event.ticker,
+                        quantity = event.quantity,
+                        type = TradingType.SELL,
                         price = event.unitPrice,
                         date = LocalDateTime.now()
                     )
@@ -79,10 +90,10 @@ constructor(
         }
     }
 
-    private fun buyStock(trade: Trade) {
+    private fun makeTrade(trade: Trade) {
         // to buy it just one time
         buyState.value.let { state ->
-            buyStockUseCase.execute(
+            makeTrade.execute(
                 trade = trade
             )
                 .onEach { dataState ->
