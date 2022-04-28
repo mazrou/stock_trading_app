@@ -5,4 +5,5 @@ sealed class Screen(
 ){
     object StocksList  : Screen(route = "stocksList")
     object StocksDetails  : Screen(route = "StocksDetails")
+    object TradeHistory  : Screen(route = "TradeHistory")
 }

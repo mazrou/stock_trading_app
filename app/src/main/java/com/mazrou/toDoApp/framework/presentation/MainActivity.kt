@@ -19,6 +19,8 @@ import com.mazrou.toDoApp.framework.presentation.ui.stockDetail.StockDetailScree
 import com.mazrou.toDoApp.framework.presentation.ui.stockDetail.StockDetailViewModel
 import com.mazrou.toDoApp.framework.presentation.ui.stocksList.MainScreen
 import com.mazrou.toDoApp.framework.presentation.ui.stocksList.StocksListViewModel
+import com.mazrou.toDoApp.framework.presentation.ui.tradeHistory.TradeHistoryScreen
+import com.mazrou.toDoApp.framework.presentation.ui.tradeHistory.TradeHistoryViewModel
 import com.mazrou.toDoApp.framework.presentation.util.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -58,6 +60,19 @@ class MainActivity : AppCompatActivity() {
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                         viewModel = viewModel,
                         onNavigateToStockDetailScreen = navController::navigate,
+                        onNavigateToStockHistoryScreen = {
+                            navController.navigate(Screen.TradeHistory.route)
+                        }
+                    )
+                }
+                composable(route = Screen.TradeHistory.route) { navBackStackEntry ->
+                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
+                    val viewModel: TradeHistoryViewModel =
+                        viewModel(key = "TradeHistoryViewModel", factory = factory)
+                    TradeHistoryScreen(
+                        isDarkTheme = true,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        viewModel = viewModel
                     )
                 }
                 composable(

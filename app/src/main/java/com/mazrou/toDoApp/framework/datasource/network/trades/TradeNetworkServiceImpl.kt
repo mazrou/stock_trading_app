@@ -6,9 +6,13 @@ import android.provider.Settings
 import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mazrou.toDoApp.business.domain.models.Trade
+import com.mazrou.toDoApp.business.domain.models.TradingType
 import com.mazrou.toDoApp.framework.presentation.util.TAG
 import com.mazrou.toDoApp.framework.utils.cLog
 import kotlinx.coroutines.tasks.await
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import kotlin.streams.toList
 
 class TradeNetworkServiceImpl(
     private val fireStore: FirebaseFirestore,
@@ -58,7 +62,7 @@ class TradeNetworkServiceImpl(
     }
 
     override suspend fun buyStock(trade: Trade): Boolean {
-        var sucess = false
+        var success = false
         fireStore
             .collection("Trades")
             .document(deviceID)
@@ -70,16 +74,40 @@ class TradeNetworkServiceImpl(
                 Log.e(TAG, "Error accrued on sending data to fireStore : ${it.message}")
                 cLog(it.message)
             }.addOnSuccessListener() {
-                sucess = true
+                success = true
             }.await()
 
-        if (sucess){
+        if (success) {
             val balance = getBalance()
             setBalance(balance - (trade.price * trade.quantity))
         }
-        return sucess
+        return success
     }
 
+    override suspend fun getTradeHistory(): List<Trade> {
+        return fireStore
+            .collection("Trades")
+            .document(deviceID)
+            .collection("TradeHistory")
+            .get()
+            .await()
+            .documents
+            .stream()
+            .map {
+                it.data?.let { item ->
+                    Trade(
+                        price = item["price"] as Double,
+                        quantity = (item["quantity"] as Long).toInt(),
+                        ticker = item["ticker"] as String,
+                        type = TradingType.valueOf(item["type"] as String),
+                        date = LocalDateTime.parse(
+                            it.id,
+                            DateTimeFormatter.ISO_DATE_TIME
+                        )
+                    )
+                }
+            }.toList()
+    }
 
 
 }

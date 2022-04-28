@@ -13,4 +13,8 @@ class TradesNetworkDataSourceImpl(
     override suspend fun buyStock(trade : Trade): Boolean {
         return tradeNetworkService.buyStock(trade)
     }
+
+    override suspend fun getTradeHistory(): List<Trade> {
+        return tradeNetworkService.getTradeHistory()
+    }
 }

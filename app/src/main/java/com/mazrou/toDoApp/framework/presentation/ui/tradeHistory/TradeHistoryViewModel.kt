@@ -1,14 +1,12 @@
-package com.mazrou.toDoApp.framework.presentation.ui.stocksList
+package com.mazrou.toDoApp.framework.presentation.ui.tradeHistory
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.mazrou.toDoApp.business.domain.uitils.StateMessage
 import com.mazrou.toDoApp.business.domain.uitils.UIComponentType
 import com.mazrou.toDoApp.business.domain.uitils.doesMessageAlreadyExistInQueue
-import com.mazrou.toDoApp.business.interactors.tickers.ports.SearchStockByTickerUserCase
-import com.mazrou.toDoApp.business.interactors.trades.ports.GetCurrentBalanceUseCase
+import com.mazrou.toDoApp.business.interactors.trades.ports.GetTradeHistoryUseCase
 import com.mazrou.toDoApp.framework.presentation.BaseViewModel
 import com.mazrou.toDoApp.framework.presentation.Event
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,67 +15,36 @@ import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
 @HiltViewModel
-class StocksListViewModel
+class TradeHistoryViewModel
 @Inject
 constructor(
-    private val searchStockByTicker: SearchStockByTickerUserCase,
-    private val getCurrentBalanceUseCase: GetCurrentBalanceUseCase
+    private val getTradeHistoryUseCase: GetTradeHistoryUseCase
 ) : BaseViewModel() {
-
-    val balanceState : MutableState<BalanceState> = mutableStateOf(BalanceState())
-    val state: MutableState<StocksState> = mutableStateOf(StocksState())
+    val state = mutableStateOf(TradeHistoryState())
     val onLoad = mutableStateOf(false)
 
-
     override fun onTriggerEvent(event: Event) {
-        when (event) {
-
-            is StocksListEvent.NewSearch -> {
-                newSearch()
-            }
-            is StocksListEvent.CurrentBalance -> {
-                currentBalance()
+        when (event){
+            is TradeHistoryEvent.GetAllTrades ->{
+                getTradeHistory()
             }
         }
+
     }
 
-    private fun currentBalance() {
-        balanceState.value.let { state ->
-            getCurrentBalanceUseCase.execute()
-                .onEach { dataState ->
-                    this.balanceState.value = state.copy(isLoading = dataState.isLoading)
-                    dataState.data?.let { balance ->
-                        this.balanceState.value = state.copy(balance = balance)
-                    }
-                    dataState.stateMessage?.let { stateMessage ->
-                        appendToMessageQueue(stateMessage)
-                    }
-                }.launchIn(viewModelScope)
-        }
-    }
-
-    private fun newSearch() {
+    private fun getTradeHistory() {
         state.value.let { state ->
-            searchStockByTicker.execute(
-                state.query
+            getTradeHistoryUseCase.execute(
             ).onEach { dataState ->
                 this.state.value = state.copy(isLoading = dataState.isLoading)
-                dataState.data?.let { stocks ->
-                    this.state.value = state.copy(stocks = stocks)
+                dataState.data?.let { trades ->
+                    this.state.value = state.copy(trades = trades)
                 }
                 dataState.stateMessage?.let { stateMessage ->
                     appendToMessageQueue(stateMessage)
                 }
             }.launchIn(viewModelScope)
         }
-    }
-
-    fun onQueryChanged(query: String) {
-        setQuery(query)
-    }
-
-    private fun setQuery(query: String) {
-        this.state.value = state.value.copy(query = query)
     }
 
     override fun removeHeadFromQueue() {

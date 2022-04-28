@@ -3,8 +3,10 @@ package com.mazrou.toDoApp.di.trades
 import com.mazrou.toDoApp.business.datasource.network.trades.TradesNetworkDataSource
 import com.mazrou.toDoApp.business.interactors.trades.BuyStock
 import com.mazrou.toDoApp.business.interactors.trades.GetCurrentBalance
+import com.mazrou.toDoApp.business.interactors.trades.GetTradeHistory
 import com.mazrou.toDoApp.business.interactors.trades.ports.BuyStockUseCase
 import com.mazrou.toDoApp.business.interactors.trades.ports.GetCurrentBalanceUseCase
+import com.mazrou.toDoApp.business.interactors.trades.ports.GetTradeHistoryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +31,13 @@ object TradesModule {
         tradeNetworkDataSource: TradesNetworkDataSource
     ): BuyStockUseCase {
         return BuyStock(tradeNetworkDataSource)
+    }
+
+    @Singleton
+    @Provides
+    fun provideTradeHistory(
+        tradeNetworkDataSource: TradesNetworkDataSource
+    ): GetTradeHistoryUseCase {
+        return GetTradeHistory(tradeNetworkDataSource)
     }
 }
