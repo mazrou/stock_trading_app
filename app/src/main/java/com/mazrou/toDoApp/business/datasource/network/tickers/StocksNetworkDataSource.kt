@@ -13,7 +13,7 @@ interface StocksNetworkDataSource {
 
     suspend fun getStockDetail(
         ticker : String,
-        data : LocalDate
+        date : LocalDate
     ) : List<CandleEntry>
 
 }
