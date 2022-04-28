@@ -56,7 +56,7 @@ fun TradeItem(
             )
             Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = trade.date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")),
+                text = "${trade.date.hour}:${trade.date.minute}",
                 style = MaterialTheme.typography.subtitle2,
             )
         }
