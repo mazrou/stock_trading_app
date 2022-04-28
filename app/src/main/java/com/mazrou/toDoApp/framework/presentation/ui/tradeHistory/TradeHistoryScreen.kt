@@ -1,15 +1,23 @@
 package com.mazrou.toDoApp.framework.presentation.ui.tradeHistory
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.ExperimentalUnitApi
 import androidx.compose.ui.unit.dp
-import com.mazrou.toDoApp.framework.presentation.components.TradeList
+import com.mazrou.toDoApp.framework.presentation.components.BalanceSurface
+import com.mazrou.toDoApp.framework.presentation.components.SearchAppBar
+import com.mazrou.toDoApp.framework.presentation.components.StocksList
 import com.mazrou.toDoApp.framework.presentation.theme.AppTheme
+import com.mazrou.toDoApp.framework.presentation.ui.stocksList.StocksListEvent
 
 @ExperimentalUnitApi
 @ExperimentalMaterialApi
@@ -21,9 +29,8 @@ fun TradeHistoryScreen(
 ) {
 
     val onLoad = viewModel.onLoad.value
-    val state = viewModel.state.value
 
-    if (!onLoad) {
+    if (!onLoad){
         viewModel.onTriggerEvent(TradeHistoryEvent.GetAllTrades)
     }
     val scaffoldState = rememberScaffoldState()
@@ -32,46 +39,12 @@ fun TradeHistoryScreen(
         isNetworkAvailable = isNetworkAvailable,
         scaffoldState = scaffoldState
     ) {
-        Scaffold(
-            topBar = {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Surface(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(MaterialTheme.colors.surface),
-                        shape = MaterialTheme.shapes.small,
-                        elevation = 8.dp
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = "Trades History",
-                                modifier = Modifier
-                                    .align(Alignment.CenterHorizontally)
-                                    .padding(10.dp),
-                                style = MaterialTheme.typography.h5,
-                                color = MaterialTheme.colors.onPrimary,
-                            )
-
-                        }
-
-                    }
-                    Spacer(modifier = Modifier.padding(10.dp))
-                }
-
-            }
-        ) {
-            TradeList(
-                loading = state.isLoading,
-                trades = state.trades,
-                modifier = Modifier.padding(10.dp)
-            )
+        Scaffold {
+           /* StocksList(
+                loading = stocksLoading,
+                stocks = stocks,
+                onNavigateToStockDetailScreen = onNavigateToStockDetailScreen
+            ) */
         }
     }
 }
