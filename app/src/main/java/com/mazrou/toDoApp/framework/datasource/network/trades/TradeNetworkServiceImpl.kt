@@ -79,7 +79,11 @@ class TradeNetworkServiceImpl(
 
         if (success) {
             val balance = getBalance()
-            setBalance(balance - (trade.price * trade.quantity))
+            if (trade.type == TradingType.BUY) {
+                setBalance(balance - (trade.price * trade.quantity))
+            } else {
+                setBalance(balance + (trade.price * trade.quantity))
+            }
         }
         return success
     }
