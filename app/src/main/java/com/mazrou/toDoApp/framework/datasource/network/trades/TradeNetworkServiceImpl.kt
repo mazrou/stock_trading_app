@@ -69,10 +69,17 @@ class TradeNetworkServiceImpl(
                 // send error reports to Firebase Crashlytics
                 Log.e(TAG, "Error accrued on sending data to fireStore : ${it.message}")
                 cLog(it.message)
-            }.addOnSuccessListener {
+            }.addOnSuccessListener() {
                 sucess = true
             }.await()
+
+        if (sucess){
+            val balance = getBalance()
+            setBalance(balance - (trade.price * trade.quantity))
+        }
         return sucess
     }
+
+
 
 }
