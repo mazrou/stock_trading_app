@@ -12,7 +12,7 @@ import com.mazrou.toDoApp.business.domain.models.Trade
 fun TradeList(
     loading: Boolean,
     trades: List<Trade>,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     if (loading && trades.isEmpty()) {
         //TODO show the shimmer
