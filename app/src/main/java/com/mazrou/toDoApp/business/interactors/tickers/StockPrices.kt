@@ -21,7 +21,7 @@ class StockPrices(
 
         // get stocks from network
         val result = stocksNetworkDataSource.getStockDetail(
-            ticker = ticker, data = date
+            ticker = ticker, date = date
         )
         // emit the result
         emit(DataState.data(null, result))

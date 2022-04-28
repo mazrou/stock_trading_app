@@ -3,12 +3,12 @@ package com.mazrou.toDoApp.framework.datasource.network.trades
 import android.annotation.SuppressLint
 import android.content.Context
 import android.provider.Settings
+import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mazrou.toDoApp.business.domain.models.Trade
-import com.mazrou.toDoApp.framework.datasource.network.trades.models.TradeDto
+import com.mazrou.toDoApp.framework.presentation.util.TAG
 import com.mazrou.toDoApp.framework.utils.cLog
 import kotlinx.coroutines.tasks.await
-import java.time.LocalDate
 
 class TradeNetworkServiceImpl(
     private val fireStore: FirebaseFirestore,
@@ -57,16 +57,17 @@ class TradeNetworkServiceImpl(
             }.await()
     }
 
-    override suspend fun buyStock(trade : Trade): Boolean {
+    override suspend fun buyStock(trade: Trade): Boolean {
         var sucess = false
         fireStore
             .collection("Trades")
             .document(deviceID)
             .collection("TradeHistory")
-            .document(trade.date.toEpochDay().toString())
+            .document(trade.date.toString())
             .set(trade.toTradeDto())
             .addOnFailureListener {
                 // send error reports to Firebase Crashlytics
+                Log.e(TAG, "Error accrued on sending data to fireStore : ${it.message}")
                 cLog(it.message)
             }.addOnSuccessListener {
                 sucess = true

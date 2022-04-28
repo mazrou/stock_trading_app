@@ -7,5 +7,5 @@ data class TradeDto(
     val price: Double,
     val ticker: String,
     val quantity: Int,
-    val type: TradingType
+    val type: String
 )

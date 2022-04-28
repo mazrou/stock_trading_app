@@ -2,11 +2,12 @@ package com.mazrou.toDoApp.business.domain.models
 
 import com.mazrou.toDoApp.framework.datasource.network.trades.models.TradeDto
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 data class Trade(
     val price: Double,
     val ticker: String,
-    val date: LocalDate,
+    val date: LocalDateTime,
     val quantity: Int,
     val type: TradingType
 ) {
@@ -15,7 +16,7 @@ data class Trade(
             price = price,
             ticker = ticker,
             quantity = quantity,
-            type = type
+            type = type.name
         )
     }
 }

@@ -9,4 +9,10 @@ sealed class StockDetailEvent : Event {
         val ticker: String,
         val date: LocalDate = LocalDate.now().minusDays(1)
     ) : StockDetailEvent()
+
+    data class BuyStock(
+        val ticker : String ,
+        val unitPrice : Double ,
+        val quantity : Int
+    ) : StockDetailEvent()
 }

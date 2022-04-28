@@ -1,7 +1,9 @@
 package com.mazrou.toDoApp.di.trades
 
 import com.mazrou.toDoApp.business.datasource.network.trades.TradesNetworkDataSource
+import com.mazrou.toDoApp.business.interactors.trades.BuyStock
 import com.mazrou.toDoApp.business.interactors.trades.GetCurrentBalance
+import com.mazrou.toDoApp.business.interactors.trades.ports.BuyStockUseCase
 import com.mazrou.toDoApp.business.interactors.trades.ports.GetCurrentBalanceUseCase
 import dagger.Module
 import dagger.Provides
@@ -21,4 +23,11 @@ object TradesModule {
         return GetCurrentBalance(tradeNetworkDataSource)
     }
 
+    @Singleton
+    @Provides
+    fun provideBuyStock(
+        tradeNetworkDataSource: TradesNetworkDataSource
+    ): BuyStockUseCase {
+        return BuyStock(tradeNetworkDataSource)
+    }
 }
